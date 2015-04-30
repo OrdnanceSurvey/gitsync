@@ -1,0 +1,51 @@
+#!/bin/bash
+set -e
+export SOURCE_REPO=
+export TARGET_REPO=
+export DIR=`dirname $0`
+export TMP_DIR="${DIR}/git_tmp_dir"
+
+log() {
+  local MESSAGE=$1
+  local NOW=`date`
+  echo "[${NOW}] - ${MESSAGE}"
+}
+
+do_sync() {
+   log "Sync changes from ${SOURCE_REPO} into ${TARGET_REPO}"
+   log ".........................."
+   rm -rf $TMP_DIR
+   git clone --mirror $SOURCE_REPO $TMP_DIR
+   pushd .
+   cd $TMP_DIR
+   git remote set-url --push origin $TARGET_REPO
+   git fetch -p origin
+   git push --mirror
+   popd
+   log "Mirrored"
+   rm -rf $TMP_DIR
+}   
+
+help() {
+  cat <<EOF
+
+  gitsync - syncs two git remotes
+
+  Usage: 
+  
+      gitsync -s <source repo> -t <target repo>
+
+
+EOF
+exit
+}
+
+while getopts :s:t: OPT
+do case "$OPT" in
+  s) SOURCE_REPO=$OPTARG;;
+  t) TARGET_REPO=$OPTARG;;
+  ?) help;;
+  esac
+done
+
+do_sync
