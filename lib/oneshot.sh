@@ -5,24 +5,32 @@ export TARGET_REPO=
 export DIR=`dirname $0`
 export TMP_DIR="${DIR}/git_tmp_dir"
 
-log() {
-  local MESSAGE=$1
-  local NOW=`date`
-  echo "[${NOW}] - ${MESSAGE}"
+validate_args() {
+
+   if [ -z $SOURCE_REPO ]; then
+    echo "Source repository not set"
+    help
+    exit -1
+  fi
+
+  if [ -z $TARGET_REPO ]; then
+    echo "Target repository not set"
+    help
+    exit -1
+  fi
+
 }
 
 do_sync() {
-   log "Sync changes from ${SOURCE_REPO} into ${TARGET_REPO}"
-   log ".........................."
+   echo "Sync changes from ${SOURCE_REPO} into ${TARGET_REPO}"
+   echo ".........................."
    rm -rf $TMP_DIR
    git clone --mirror $SOURCE_REPO $TMP_DIR
-   pushd .
    cd $TMP_DIR
    git remote set-url --push origin $TARGET_REPO
    git fetch -p origin
    git push --mirror
-   popd
-   log "Mirrored"
+   echo "Mirrored"
    rm -rf $TMP_DIR
 }   
 
@@ -33,7 +41,7 @@ help() {
 
   Usage: 
   
-      gitsync -s <source repo> -t <target repo>
+      gitsync oneshot -s <source repo> -t <target repo>
 
 
 EOF
