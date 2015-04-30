@@ -16,6 +16,27 @@ EOF
 
 }
 
+interact() {
+	
+	while [ -z $SOURCE_REPO ]; do
+		echo "What repository do you want to clone?"
+		read SOURCE_REPO
+		
+	done
+
+	while [ -z $TARGET_REPO ]; do
+		echo "What repository do you want to push changes to?"
+		read TARGET_REPO
+	done
+
+	echo "What is the name of this project?"
+	read NAME
+	if [ -n "$NAME" ]; then
+		REPO_NAME=$NAME
+	fi
+
+}
+
 validate_args() {
 
 	if [ -d "${WORKDIR}" ]; then
@@ -65,6 +86,10 @@ do case "$OPT" in
   ?) usage;exit 0;;
   esac
 done
+
+if [ $# -eq 0 ]; then
+	interact
+fi
 
 validate_args
 do_init
