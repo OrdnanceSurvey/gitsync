@@ -56,4 +56,5 @@ do case "$OPT" in
   esac
 done
 
+validate_args
 do_sync
