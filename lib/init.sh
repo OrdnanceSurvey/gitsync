@@ -38,6 +38,11 @@ validate_args() {
 }
 
 do_init() {
+	if [ -d $WORKDIR ]; then
+		echo "Workdir already created - exiting"
+		exit
+	fi
+	
 	mkdir -p $WORKDIR
 	cat <<EOF > "${WORKDIR}/.gitsync"
 SOURCE_REPO=${SOURCE_REPO}
