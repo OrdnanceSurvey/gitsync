@@ -1,10 +1,3 @@
-cat <<EOF
-
-  gitsync - syncs two git remotes
-
-  Usage: 
-  
-      gitsync -s <source repo> -t <target repo>
-
-
-EOF
+#!/bin/bash
+DIR=`dirname $0`
+cat "${DIR}/helpfile"
