@@ -2,6 +2,7 @@
 export DIR=`dirname $0`
 source "${DIR}/common.sh" 
 
+
 ensure_exists(){
 	if [ ! -d "${WORKDIR}" ]; then
 		echo "Work directory does not exist. Did you run gitsync init?"
@@ -40,6 +41,22 @@ do_sync() {
   echo "Synced ${SOURCE_REPO} to ${TARGET_REPO}"
 }
 
+do_log() {
+	local NOW=`date`
+	echo "Synced ${SOURCE_REPO} to ${TARGET_REPO} at ${NOW}" >> $LOG_FILE
+}
+
+truncate_log_if_needed() {
+	if [ ! -f $LOG_FILE ]; then return; fi
+	COUNT=$(wc -l < ${LOG_FILE})
+	if (( $COUNT > 3 )); then
+		echo "Log file over 1000 entries - cleaning up"
+		: > $LOG_FILE
+	fi
+}
+
 ensure_exists
 source_syncfile
 do_sync
+truncate_log_if_needed
+do_log
