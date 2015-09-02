@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -vx
 set -e
 
 export DIR=`dirname $0`
@@ -9,7 +9,7 @@ run_subcommand() {
   
   case $SUBCOMMAND in
     help | init | clean | sync | oneshot) 
-      sh "${LIB_DIR}/${SUBCOMMAND}.sh" "${@:2}"
+      bash "${LIB_DIR}/${SUBCOMMAND}.sh" "${@:2}"
       exit;;
     *)
       echo "No such action as '${SUBCOMMAND}'"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -vx
 export SOURCE_REPO=
 export TARGET_REPO=
 export REPO_NAME=gitrepository.git

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -vx
 set -e
 export SOURCE_REPO=
 export TARGET_REPO=

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -vx
 DIR=`dirname $0`
 source "${DIR}/common.sh" 
 cat "${DIR}/helpfile"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -vx
 export DIR=`dirname $0`
 source "${DIR}/common.sh" 
 
